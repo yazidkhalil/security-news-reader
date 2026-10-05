@@ -42,17 +42,17 @@ public class Main {
 	private static void printArticles(String xml) throws Exception {
 		DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
 		Document doc = builder.parse(new InputSource(new StringReader(xml)));
-		NodeList items = doc.getElementsByTagName("item");
+		NodeList articles = doc.getElementsByTagName("item");
 
 		int i = 0;
-		while (i < items.getLength()) {
-			Element item = (Element) items.item(i);
+		while (i < articles.getLength()) {
+			Element article = (Element) articles.item(i);
 
-			String title = getTagText(item, "title");
-			String description = getTagText(item, "description");
-			String link = getTagText(item, "link");
-			String pubDate = getTagText(item, "pubDate");
-			String author = getTagText(item, "author");
+			String title = getTagText(article, "title");
+			String description = getTagText(article, "description");
+			String link = getTagText(article, "link");
+			String pubDate = getTagText(article, "pubDate");
+			String author = getTagText(article, "author");
 			System.out.println("Title : " + title);
 			System.out.println("Description: " + description);
 			System.out.println("Link: " + link);
@@ -67,12 +67,12 @@ public class Main {
 	/**
 	 * Gets the text of the given tag inside an article.
 	 * 
-	 * @param item the article to search in
+	 * @param article the article to search in
 	 * @param tag  the tag name to look for
 	 * @return the tag's text if it exists or "N/A" if it doesn't.
 	 */
-	private static String getTagText(Element item, String tag) {
-		NodeList list = item.getElementsByTagName(tag);
+	private static String getTagText(Element article, String tag) {
+		NodeList list = article.getElementsByTagName(tag);
 		if (list.getLength() > 0) {
 			return list.item(0).getTextContent();
 		} else {
@@ -83,7 +83,7 @@ public class Main {
 	
 	/**
 	 * Asks the user to enter an RSS feed URL and prints its articles.
-	 * @param args
+	 * @param args not used
 	 */
 	public static void main(String[] args) {
 
