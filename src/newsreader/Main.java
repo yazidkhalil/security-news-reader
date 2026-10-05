@@ -15,10 +15,6 @@ import org.w3c.dom.NodeList;
 
 public class Main {
 
-	
-	
-	
-	
 	private static String getFeed(String url) throws Exception{
 		URI uri = URI.create(url);
 		HttpClient http =  HttpClient.newHttpClient();
