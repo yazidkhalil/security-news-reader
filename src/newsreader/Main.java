@@ -64,11 +64,12 @@ public class Main {
 				System.out.println("Publish date: " + pubDate);
 				System.out.println("Author: " + author);
 				System.out.println();
-				matches ++;
+				matches++;
 			} 
 			i++;
 			
-		} if (matches == 0) {
+		} 
+		if (matches == 0) {
 			System.out.println("No articles found for: " + "\"" + keyword + "\"");
 		} 
 	}
