@@ -47,8 +47,8 @@ public class Main {
 		NodeList articles = doc.getElementsByTagName("item");
 
 		int i = 0;
+		int matches = 0;
 		while (i < articles.getLength()) {
-
 			Element article = (Element) articles.item(i);
 			String title = getTagText(article, "title");
 			String description = getTagText(article, "description");
@@ -56,6 +56,7 @@ public class Main {
 			String pubDate = getTagText(article, "pubDate");
 			String author = getTagText(article, "author");
 
+			
 			if (containsKeyword(title, description, keyword)) {
 				System.out.println("Title : " + title);
 				System.out.println("Description: " + description);
@@ -63,9 +64,13 @@ public class Main {
 				System.out.println("Publish date: " + pubDate);
 				System.out.println("Author: " + author);
 				System.out.println();
-			}
+				matches ++;
+			} 
 			i++;
-		}
+			
+		} if (matches == 0) {
+			System.out.println("No articles found for: " + "\"" + keyword + "\"");
+		} 
 	}
 
 	/**
@@ -97,7 +102,7 @@ public class Main {
 		if (title.toLowerCase().contains(keyword.toLowerCase())
 				|| description.toLowerCase().contains(keyword.toLowerCase())) {
 			return true;
-		} 
+		}
 		return false;
 	}
 
