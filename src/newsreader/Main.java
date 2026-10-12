@@ -158,8 +158,7 @@ public class Main {
 			System.out.println("Enter a keyword: ");
 			String userKeyword = input.nextLine();
 			
-																				// https://feeds.feedburner.com/TheHackersNews (Test link)
-																				// https://krebsonsecurity.com/feed/ (Test link)
+																				
 			String xml = getFeed(userInput);
 			PrintWriter writer =  new PrintWriter("security-news.html");
 			outputHeader(writer);
