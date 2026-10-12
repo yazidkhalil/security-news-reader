@@ -15,6 +15,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
+import java.io.PrintWriter;
+
 public class Main {
 
 	/**
@@ -32,6 +34,29 @@ public class Main {
 		return response.body();
 
 	}
+	
+	/**
+	 * Writes the top of the HTML page.
+	 * 
+	 * @param out the writer for the HTML file
+	 */
+	private static void outputHeader(PrintWriter out) {
+		out.println("<!DOCTYPE html>");
+		out.println("<html>");
+		out.println("<head>");
+		out.println("<title> Security News </title>");
+		out.println("</head>");
+		out.println("<body>");
+		out.println("<h1> Security News </h1>");
+
+		
+
+
+
+
+	} 
+		
+	
 
 	/**
 	 * Creates an XML tree, and prints each article that contains the keyword
@@ -41,7 +66,7 @@ public class Main {
 	 * @param keyword the user's keyword
 	 * @throws Exception if the XML can't be parsed
 	 */
-	private static void printArticles(String xml, String keyword) throws Exception {
+	private static void printArticles(String xml, String keyword, PrintWriter out) throws Exception {
 		DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
 		Document doc = builder.parse(new InputSource(new StringReader(xml)));
 		NodeList articles = doc.getElementsByTagName("item");
@@ -58,20 +83,30 @@ public class Main {
 
 			
 			if (containsKeyword(title, description, keyword)) {
-				System.out.println("Title : " + title);
-				System.out.println("Description: " + description);
-				System.out.println("Link: " + link);
-				System.out.println("Publish date: " + pubDate);
-				System.out.println("Author: " + author);
-				System.out.println();
+				out.println("<h2>" + title + "</h2>");
+				out.println("<p>" + description + "</p>");
+				out.println("<a href=" + "\"" + link + "\"" + ">"+ link + "</a>");
+				out.println("<p>" + pubDate + "</p>");
+				out.println("<p>" + author + "</p>");
+				out.println("<hr>");
 				matches++;
 			} 
 			i++;
 			
 		} 
 		if (matches == 0) {
-			System.out.println("No articles found for: " + "\"" + keyword + "\"");
+			out.println("<p> No articles found for " + "\"" + keyword + "\"" + "</p>");
 		} 
+	}
+	
+	/**
+	 * Closes the tags of the HTML page.
+	 * 
+	 * @param out Writes to the HTML file
+	 */
+	private static void outputFooter(PrintWriter out) {
+		out.println("</body>");
+		out.println("</html>");
 	}
 
 	/**
@@ -106,6 +141,8 @@ public class Main {
 		}
 		return false;
 	}
+	
+
 
 	/**
 	 * Asks the user to enter an RSS feed URL and prints its articles.
@@ -120,14 +157,21 @@ public class Main {
 			String userInput = input.nextLine();
 			System.out.println("Enter a keyword: ");
 			String userKeyword = input.nextLine();
-			// https://feeds.feedburner.com/TheHackersNews (Test link)
-			// https://krebsonsecurity.com/feed/ (Test link)
+			
+																				// https://feeds.feedburner.com/TheHackersNews (Test link)
+																				// https://krebsonsecurity.com/feed/ (Test link)
 			String xml = getFeed(userInput);
-			printArticles(xml, userKeyword);
+			PrintWriter writer =  new PrintWriter("security-news.html");
+			outputHeader(writer);
+			printArticles(xml, userKeyword, writer);
+			outputFooter(writer);
+			writer.close();
+
 		} catch (Exception e) {
-			// System.out.println("URL Link invalid.");
+			System.out.println("URL Link invalid.");
 			e.printStackTrace();
 		}
+		
 
 	}
 }
